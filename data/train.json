@@ -1,0 +1,16 @@
+[
+  {
+    "doc_id": "doc1",
+    "source_filename": "doc1.pdf",
+    "pre_text": "This is the introduction.",
+    "table": [["Year", "Revenue"], ["2020", "100"], ["2021", "150"]],
+    "post_text": "End of document."
+  },
+  {
+    "doc_id": "doc2",
+    "source_filename": "doc2.pdf",
+    "pre_text": "Another doc pre text.",
+    "table": [["A", "B"], ["1", "2"]],
+    "post_text": "Closing remarks."
+  }
+]
