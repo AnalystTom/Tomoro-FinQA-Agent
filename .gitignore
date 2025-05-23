@@ -172,3 +172,4 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+evaluation/notebooks/analyze_retrieval_performance.ipynb
