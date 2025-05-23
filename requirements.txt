@@ -3,3 +3,12 @@ fastapi
 uvicorn
 python-dotenv
 sentence-transformers
+pandas
+numpy
+tenacity
+openai
+httpx
+pydantic
+pydantic-settings
+faiss-cpu
+asteval
