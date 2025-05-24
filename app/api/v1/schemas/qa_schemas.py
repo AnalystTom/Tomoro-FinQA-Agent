@@ -1,24 +1,40 @@
 # app/api/v1/schemas/qa_schemas.py
 from pydantic import BaseModel, Field
-from typing import List, Dict, Any, Optional
-
-class QAInput(BaseModel):
-    question: str
-    pre_text: Optional[List[str]] = None       # Allows None, defaults to None if not provided
-    post_text: Optional[List[str]] = None      # Allows None, defaults to None if not provided
-
-    table_ori: Optional[List[List[Any]]] = None # Allows None, defaults to None
-
+from typing import List, Any, Optional, Dict, Union
 
 class ToolCallLog(BaseModel):
-    tool_name: str = Field(..., description="Name of the tool called.", examples=["calculator"])
-    tool_args: Dict[str, Any] = Field(..., description="Arguments passed to the tool.", examples=[{"math_expression": "100 + 50"}])
-    tool_result: Any = Field(..., description="Result returned by the tool.", examples=["150"]) # Can be string, number, dict, list
+    tool_name: str
+    tool_args: Dict[str, Any] # Expecting parsed arguments as a dict
+    tool_result: str          # Result of the tool call, or error message
+    error: bool = False       # Flag to indicate if the tool call resulted in an error
+
+class QAInput(BaseModel):
+    question: str  # For the first turn, this is the main question. For subsequent turns, the current user utterance.
+    
+    # Context fields, primarily for the first turn of a conversation
+    pre_text: Optional[List[str]] = None
+    post_text: Optional[List[str]] = None
+    table_ori: Optional[List[List[Any]]] = None # List of lists, or other raw table format
+
+    # Optional field for existing conversation history
+    # Each dict in the list should conform to OpenAI's message format
+    # e.g., {"role": "user", "content": "..."} or {"role": "assistant", "content": "...", "tool_calls": [...]}
+    messages_history: Optional[List[Dict[str, Any]]] = Field(default=None, description="Existing conversation history.")
+
+    # Optional identifiers
+    uid: Optional[str] = None
+    request_id: Optional[str] = None
+    item_id: Optional[str] = None # Useful for evaluation linking
 
 class QAResponse(BaseModel):
-    answer: str = Field(..., description="The final answer to the question.", examples=["The revenue in 2023 was 100M."])
-    explanation: Optional[str] = Field(None, description="Explanation of how the answer was derived.", examples=["The value was found in the provided table."])
-    tool_calls_log: Optional[List[ToolCallLog]] = Field(None, description="Log of tool calls made by the agent.")
-    retrieved_context_summary: Optional[str] = Field(None, description="Summary of context retrieved by the 'query_financial_knowledge_base' tool, if used.")
-    error_message: Optional[str] = Field(None, description="Error message if processing failed at some point.") # Ensure this line is present
+    answer: str  # The final textual answer from the assistant for the current turn
+    explanation: Optional[str] = None
+    tool_calls_log: List[ToolCallLog] = Field(default_factory=list) # Log of tools used in the *current* processing step
+    
+    # The complete, updated conversation history including the latest turn
+    updated_messages_history: List[Dict[str, Any]] = Field(description="The full conversation history after this turn.")
+    
+    # Optional: You might want to include the original item_id or request_id back for client tracking
+    item_id: Optional[str] = None
+    request_id: Optional[str] = None
 

@@ -3,3 +3,9 @@ fastapi
 uvicorn
 python-dotenv
 sentence-transformers
+pandas
+tenacity
+openai
+httpx
+asteval
+numpy

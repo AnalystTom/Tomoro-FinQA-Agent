@@ -1,4 +1,4 @@
-from .parser import Document, parse_train_json
-from .chunker import Chunk, chunk_documents
+from .parser import parse_train_json
 from .embedder import embed_chunks
-from .indexer import build_index, save_index, save_metadata
+# In app/rag_pipeline/__init__.py
+from .indexer import VectorIndexer

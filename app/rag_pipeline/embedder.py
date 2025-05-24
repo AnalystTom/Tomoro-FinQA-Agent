@@ -4,7 +4,7 @@ from typing import List, Tuple, Iterable
 import numpy as np
 
 from app.clients.embedding_client import EmbeddingClient
-from .chunker import Chunk
+from app.rag_pipeline.chunker import Chunk
 
 
 def embed_chunks(chunks: Iterable[Chunk], client: EmbeddingClient) -> Tuple[np.ndarray, List[dict]]:
