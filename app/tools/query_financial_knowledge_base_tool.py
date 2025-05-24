@@ -8,6 +8,11 @@ from app.services.retrieval_service import RetrievalService
 
 logger = logging.getLogger(__name__)
 
+'''
+This file contains the knowledge base tool, which is used to query the knowledge base.
+
+It's not currently used, but could be used in the future.
+'''
 
 async def query_financial_knowledge_base_impl(
     query: str, 
