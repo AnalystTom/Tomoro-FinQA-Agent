@@ -16,37 +16,138 @@ The backend is powered by **FastAPI**, with supporting **Python scripts** for ev
 ## 📁 Project Structure
 
 ```
-Tomoro-FinQA-Agent/
-├── app/
-│   ├── api/v1/
-│   │   ├── routers/qa.py             # FastAPI QA endpoints
-│   │   └── schemas/qa_schemas.py     # Pydantic models
-│   ├── agent_components/
-│   │   ├── function_caller.py        # Tool registration & execution
-│   │   └── prompt_manager.py         # LLM prompt construction
-│   ├── clients/llm_client.py         # AsyncOpenAI wrapper
-│   ├── core/config.py                # App configuration
-│   ├── rag_pipeline/
-│   │   └── parser.py                 # Table-to-Markdown converter (legacy)
-│   ├── services/qa_service.py        # Core QA logic
-│   └── main.py                       # FastAPI app entry point
-├── evaluation/
-│   ├── datasets/qa_eval_dataset.json
-│   └── scripts/
-│       ├── generate_eval_script_updated.py
-│       ├── run_evaluation_script.py
-│       ├── run_evaluation_single_shot.py
-│       └── run_evaluation_turns.py
-├── prompts/financial_assistant_system_prompt.md
-├── scripts/test_parser.py            # TableParser tests
-├── tests/unit/
-│   ├── agent_components/test_prompt_manager.py
-│   ├── clients/test_llm_client.py
-│   └── services/test_qa_service.py
 ├── .env.example
+├── .github
+│   └── workflows
+│       └── ci.yml
 ├── .gitignore
+├── .python-version
+├── Dockerfile
+├── README.md
+├── app
+│   ├── __init__.py
+│   ├── agent_components
+│   │   ├── function_caller.py
+│   │   └── prompt_manager.py
+│   ├── api
+│   │   ├── __init__.py
+│   │   └── v1
+│   │       ├── __init__.py
+│   │       ├── routers
+│   │       │   ├── __init__.py
+│   │       │   └── qa.py
+│   │       └── schemas
+│   │           ├── __init__.py
+│   │           ├── document_schemas.py
+│   │           └── qa_schemas.py
+│   ├── clients
+│   │   ├── __init__.py
+│   │   ├── embedding_client.py
+│   │   ├── llm_client.py
+│   │   └── vector_db_client.py
+│   ├── config
+│   │   └── settings.py
+│   ├── main.py
+│   ├── models
+│   │   ├── __init__.py
+│   │   └── domain_models.py
+│   ├── rag_pipeline
+│   │   ├── __init__.py
+│   │   ├── chunker.py
+│   │   ├── embedder.py
+│   │   ├── indexer.py
+│   │   ├── parser.py
+│   │   ├── reranker.py
+│   │   └── retriever.py
+│   ├── services
+│   │   ├── __init__.py
+│   │   ├── qa_service.py
+│   │   └── retrieval_service.py
+│   └── tools
+│       ├── __init__.py
+│       ├── calculation_tool.py
+│       ├── knowledge_base_tool.py
+│       ├── query_financial_knowledge_base_tool.py
+│       └── table_query_tool.py
+├── data
+│   ├── raw_documents
+│   │   └── train.json
+│   ├── train.json
+│   └── vector_store
+│       ├── faiss_index.idx
+│       └── faiss_metadata.json
+├── docker-compose.yml
+├── evaluation
+│   ├── compare_answers_testing.py
+│   ├── datasets
+│   │   ├── prep
+│   │   │   └── qa_eval_dataset.json
+│   │   └── qa_eval_dataset.json
+│   ├── results
+│   │   ├── multi_turn_evaluation_summary_first_30.json
+│   │   ├── single_shot_evaluation_summary_first_10.json
+│   │   ├── single_shot_evaluation_summary_first_100_62.json
+│   │   ├── single_shot_evaluation_summary_first_100_faulty_decimal.json
+│   │   └── single_shot_evaluation_summary_first_5.json
+│   └── scripts
+│       ├── run_evaluation_single_shot.py
+│       ├── run_evaluation_single_shot_cost_latency.py
+│       └── run_evaluation_turns.py
+├── prompts
+│   ├── financial_assistant_system_prompt.md
+│   ├── financial_assistant_system_prompt_v1.md
+│   └── financial_assistant_system_prompt_v2.md
+├── pyproject.toml
+├── requirements-dev.txt
 ├── requirements.txt
-└── README.md                         # You are here
+├── scripts
+│   ├── __init__.py
+│   ├── build_vector_store.py
+│   ├── ingest_data.py
+│   ├── prepare_evaluation_data.py
+│   ├── run_evaluations.py
+│   └── test_parser.py
+├── tests
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── e2e
+│   │   ├── __init__.py
+│   │   ├── test_build_vector_store.py
+│   │   └── test_full_qa_flow.py
+│   ├── integration
+│   │   ├── __init__.py
+│   │   ├── api
+│   │   │   └── __init__.py
+│   │   ├── test_embedding_client.py
+│   │   ├── test_example_integration.py
+│   │   └── test_llm_client.py
+│   └── unit
+│       ├── __init__.py
+│       ├── agent_components
+│       │   ├── test_function_caller.py
+│       │   └── test_prompt_manager.py
+│       ├── api
+│       │   └── test_qa_api.py
+│       ├── clients
+│       │   ├── __init__.py
+│       │   └── test_llm_client.py
+│       ├── evaluation_pipeline
+│       │   └── evaluation_extraction.py
+│       ├── rag_pipeline
+│       │   ├── __init__.py
+│       │   ├── test_chunker.py
+│       │   ├── test_indexer.py
+│       │   └── test_parser.py
+│       ├── services
+│       │   ├── __init__.py
+│       │   ├── test_qa_service.py
+│       │   └── test_retrieval_service.py
+│       ├── test_dataset_presence.py
+│       ├── test_example_unit.py
+│       └── tools
+│           ├── test_calculation_tool.py
+│           └── test_knowledge_base_tool.py
+└── uv.lock
 ```
 
 ---
