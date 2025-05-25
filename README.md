@@ -11,13 +11,24 @@
 
 The backend is powered by **FastAPI**, with supporting **Python scripts** for evaluation and dataset generation.
 
-Future Work Planned: 
-1. Having developed the RAG inference pipeline but not found it strictly necessary, the additon of RAG as a tool for the AI agent can help drastically save on costs and potentially improve execution accuracy/reduce hallucinations. Further testing is required
-2. e2e test coverage - ensure that the qa process is covered end-to-end.
-3. For deployment, I would clarify functional and business requirements. Eg. What is the size of the data? What is the user expecting as an output from the system?
-If we turn this into an enterprise solution, would we expect the questions to go through all the document corpus? Are there images in the documents?
-And many more that you find the evaluation report  
-4. I would then deploy the backend using Docker and develop a frontend interface so the user can interact with the app
+Please find my finding in the evaluation report attached in the email I sent. 
+
+## Future Work Planned: 
+1. Having developed the RAG inference pipeline but not found it strictly necessary, the additon of RAG as a tool for the AI agent can help drastically save on costs and potentially improve execution accuracy/reduce hallucinations. Further testing is required.
+2. Improve parsing to fix the errors outlined in evalution report. See evalution report attched in email. 
+
+### Detailed Plan of Actin. 
+1.	Requirements gathering – working closely with clients to identify functional and business needs
+2.	Gather and process the data – work with clients to understand the expected growth volume and adjust the pipeline in case images are going to be present. 
+3.	Define the AI problem – what exact outputs are required? Do we need to provide citations? 
+4.	Further improvements on the system (as outlined above) 
+5.	Evaluation - using both business and functional metrics. 
+6.	System Design – scalability, cost, cloud infrastructure
+7.	Deployment – Dockerising and K8s (CI/CD pipeline already implemented) 
+8.	Monitoring – observability, tracing, A/B testing
+
+
+
 
 ---
 
