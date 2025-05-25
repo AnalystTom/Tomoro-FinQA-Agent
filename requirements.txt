@@ -9,3 +9,5 @@ openai
 httpx
 asteval
 numpy
+pydantic-settings
+faiss-cpu
