@@ -11,6 +11,14 @@
 
 The backend is powered by **FastAPI**, with supporting **Python scripts** for evaluation and dataset generation.
 
+Future Work Planned: 
+1. Having developed the RAG inference pipeline but not found it strictly necessary, the additon of RAG as a tool for the AI agent can help drastically save on costs and potentially improve execution accuracy/reduce hallucinations. Further testing is required
+2. e2e test coverage - ensure that the qa process is covered end-to-end.
+3. For deployment, I would clarify functional and business requirements. Eg. What is the size of the data? What is the user expecting as an output from the system?
+If we turn this into an enterprise solution, would we expect the questions to go through all the document corpus? Are there images in the documents?
+And many more that you find the evaluation report  
+4. I would then deploy the backend using Docker and develop a frontend interface so the user can interact with the app
+
 ---
 
 ## 📁 Project Structure
